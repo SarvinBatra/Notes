@@ -1,0 +1,40 @@
+# Add Logout link
+
+-> Just right after login button add Link for logout on base.html
+ {% url 'logout' %}
+
+>>> Whenever we click on that logout link or button user will logout from his user account and redirect to the home page. The reason we set the login redirect link to home page in the settings.py file to our home page in privious tutorial.
+
+-----------------------------
+
+# Hide thinks from un-authenticated users
+
+-> If we want to hide some content from non logged in user we can user .is_authenticated tag for it.
+
+ {% if user.is_authenticated %}
+	//show to logged in user
+ {% else %}
+ 	//show to non logged in user
+ {% endif %}
+
+-> We can use this code block without else and end if we want to use for only one condition.
+
+ {% if user.is_authenticated %}
+	#show to logged in user
+ {% endif %}
+  
+ //show to all users
+
+-> apply the code to delete post, add post, update post pages and edit & delete button and restrict register, add post, Login and Logout links based on users status.
+
+------------------------------
+
+#slice post content on home page
+
+-> on Home template add slice method
+ {{ post.body|slice:':200' }}
+
+>>> replace 200 with the number of carracter that you want to show.
+
+
+

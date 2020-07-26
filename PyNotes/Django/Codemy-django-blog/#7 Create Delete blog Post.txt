@@ -1,0 +1,34 @@
+# Create DeletePostView
+
+-> first import DeleteView in views.py file.
+
+-> Now import reverse lazy
+ from django.urls import reverse_lazy
+
+-> Create a new Class 
+ class DeletePostView(DeleteView):
+	model = Post
+	template_name = 'delete_post.html'
+	success_url = reverse_lazy('home')
+
+-> In template directory create a new file and named it delete_post.html
+
+-> Copy previousoly created update_post content and paste it in this delete_post.html file. Remove the {{ form }} from it. 
+
+-> Customize the template to warn users or make sure they really want to delete the post.
+
+-> In app's urls.py file import the DeletePostView class
+
+-> create path for the deleteview in the urlpattern
+ path('post/<int:pk>/delete/', DeletePostView.as_view(), name='delete_post'),
+
+-----------------------------------
+
+#Add post delete link
+
+-> Create link
+ <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+
+-> add this link on the post template and home template beside edit post link.
+
+-> Run the server and Check if everone working as expected.

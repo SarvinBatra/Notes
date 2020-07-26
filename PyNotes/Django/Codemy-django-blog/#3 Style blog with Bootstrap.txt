@@ -1,0 +1,86 @@
+
+#Create Base template
+
+-> Go to templates folder and Create 'base.html' template
+
+-> Go to Bootstrap site and copy the starter template.
+
+-> Inside the body, replace <h1>Hello, World!</h1> with this -
+ 
+ {% block content %}
+ {% endblock %}
+
+-> create a div and put it inside it
+ <br>
+ <div class="container">
+	{% block content %}
+ 	{% endblock %}
+ </div>
+
+-> On every template that we created so far, put all of these content inside this block on their html file.
+
+-> You also need to put this code on top of everthing
+ {% extends 'base.html' %}
+
+-> Run the server and Check if bootstrap is working properly.
+
+----------------------------
+
+#Customize post page
+
+-> turn back link on post page to button
+ <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+-> 
+
+-----------------------------
+ 
+#Add Navbar to our blog
+
+-> Go to GetBootstrap.Com and head over to component.
+
+-> Navigate to navbar section and Choose the navbar that you like.
+
+-> Copy the code of NavBar.
+
+-> Paste this code inside body tag before anything else in base.html.
+
+-> save file and Check if navbar is loaded on browser as expected.
+
+-> remove the unnessary and undesired part from navbar.
+
+-> Customize the name of Blog.
+
+-> add the navigation links.
+
+----------------------------------
+
+#Add title tag to individual posts
+
+-> inside the Title tag of base.html template replace with this
+ <title>{% block title %}{% endblock %}</title>
+
+-> put this on article_detail.html template before other content block
+ {% block title %}{{ post.title }}{% endblock %}
+
+------------------------------------------
+
+#Add title tag to individual posts - using models
+
+-> inside the Title tag of base.html template replace with this
+ <title>{% block title %}{% endblock %}</title>
+
+-> put this on article_detail.html template before other content block
+ {% block title %}{{ post.title_tag }}{% endblock %}
+
+-> go to models.py and create another field in Post class
+ title_tag = models.CharField(max_length=255, default='Custom text')
+
+-> Make the migrations
+ python manage.py makemigrations
+
+-> Run the migrate
+ python manage.py migrate
+
+-> Go to adming area, post and check if you can add title tag or not
+

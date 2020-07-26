@@ -1,0 +1,47 @@
+
+#Coding part
+
+-> in Views.py file before post.like.add(request.user) line add this
+ liked = False
+
+-> Now add Conditional after that variable
+ if post.likes.filter(id=request.user.id).exists():
+ 	post.likes.remove(request.user)
+ 	liked = False
+ else:
+ 	post.likes.add(request.user)
+ 	liked = True
+
+-> remove the extra post.like.add(request.user) line from it.
+
+-> In ArticleDetailView class on Views.py file before context['cat_menu'] add this 
+ liked = False
+
+-> add this conditional right after it
+ if stuff.likes.filter(id=self.request.user.id).exists():
+ 	liked = True 
+
+-> Create another Context after the last one
+ context["liked"] = liked
+
+-----------------------
+
+# Set like unlike button
+
+-> Setup like/unlike button like this in article_datails page and remove previous button.
+ 
+ {% if liked %}
+ 	<button type="submit", name="post.id", value="{{ post.id }}", class="btn btn-danger btn-sm ">Unlike</button>
+ 
+ {% else %}
+
+ 	<button type="submit", name="post.id", value="{{ post.id }}", class="btn btn-primary btn-sm ">Like</button>
+ 
+ {% endif %}
+
+-> wrap up all this code in 
+ {% if user.is_authenticated %}
+ 	//like/unlke buttons here 
+ {% else %}
+ 	<p><a href="{% url 'login' %}">login</a> to like</p>
+ {% endif %}

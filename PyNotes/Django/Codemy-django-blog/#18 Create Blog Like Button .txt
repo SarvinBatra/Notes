@@ -1,0 +1,72 @@
+
+# Create The Like Button
+
+-> In models.py file's Post model add a new field
+ likes = models.ManyToManyField(User, related_name='blog_posts')
+
+-> Run the migrations command
+ python manage.py makemigrations
+
+-> Now migrate
+ python manage.py migrate
+
+-> Head back to admin area and Check the add post section, check if the likes field added in it or not.
+
+-> In code editor open article_details.html template.
+
+-> create this form before endblock
+ <form action="{% url 'like_post' post.pk %}" method="POST">
+	{% csrf_token %}
+	<button type="submit", name="post.id", value="{{ post.id }}", class="btn btn-primary btn-sm ">Like</button>
+ </form>
+
+-> In views.py file import this right after render
+ get_object_or_404
+
+-> Import HttpResponseRedirect
+ from django.http import Http ResponseRedirect
+
+-> Import reverse right beside reverse_lazy
+
+-> Create a view for like in Views.py file
+ def LikeView(request, pk):
+ 	post = get_object_or_404(Post, id=request.POST.get('post_id'))
+ 	post.likes.add(request.user)
+ 	return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))	
+
+-> Import LikeView in urls.py file
+
+-> Make url for like post in urls.py file
+ path('like/<int:pk>', LikeView, name='like_post'),
+
+-> Run the server and click on like post on any post and Check same post in the admin area that it is record as like or not.
+
+------------------------------
+
+# Show likes count beside like button
+
+-> In models.py file inside Post model class create this method
+ def total_likes(self):
+ 	return self.likes.count()
+
+>>> Now we have to In views.py file, Inside ArticleDetailView pass that function. We can do that simply passing as context inside get_context_data method.
+
+>>> before that we also need to setup variable to to lookup the likes from post model class.
+
+-> Add this line to pass context, right below context["cat_menu"]
+ context["total_likes"] = total_likes
+
+-> add this line before context["cat_menu"]
+ stuff = get_object_or_404(Post, id=self.kwargs['pk'])
+
+-> assign total like function to variable after that line
+ total_likes == stuff.total_likes()
+ 
+-> Go to Article_detail template and now we can call the total likes by
+ {{ total_likes }}
+
+-> add that piece of code right beside like button.
+
+-> Check if that like button and count is working.
+
+ 

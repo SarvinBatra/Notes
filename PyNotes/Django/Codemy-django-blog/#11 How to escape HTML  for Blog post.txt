@@ -1,0 +1,11 @@
+
+#Show proper format text by html
+
+-> In the post-datail template replace post.body with 
+ { post.body|safe }
+
+-> create or update any post and include few html tag to check if its working or not.
+
+-> use same code on home template if it showing html tags on snipsets.
+
+>>> Now if we put HTML code while writting or updating post the output text will be shown as proper format.

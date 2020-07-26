@@ -1,0 +1,57 @@
+
+# Customizing template
+
+-> In app's directory create forms.py
+
+-> import forms 
+ from django import forms
+
+-> Import Post models
+ from .models import Post
+
+-> Create a class
+ class PostForm(forms.ModelForm):
+	class Meta:
+		model = Post
+		fields = ['title', 'title_tag', 'author', 'body']
+
+>>> To stylize our forms using plan CSS or bootstrap we have to use Widgets dictionary along with On template css/bt classes
+
+-> Create widgets inside our PostForm class
+ widgets = {
+	'title':forms.TextInput(attrs={'class': 'form-control'}),
+	'title_tag':forms.TextInput(attrs={'class': 'form-control'}),
+	'author':forms.Select(attrs={'class': 'form-control'}),
+	'body':forms.Textarea(attrs={'class': 'form-control'}),
+
+ }
+
+-> in out 'add_post.html' template add div of class form-group like this
+ <div class="form-group">
+ <form method="POST">
+	{% csrf_token %}
+	{{ form }}
+	<button class="btn btn-secondary">Post</button>
+ </form>
+ </div>
+
+---------------------------------
+
+#Make changes in views.py
+
+-> In app's views.py file import the form that we created 
+ from .forms import PostForm
+
+-> Use forms class in AddPostView by adding
+ form_class = PostForm
+
+-> Remove the fields variable from it.
+
+->>> The final AddPostView class will be
+ class AddPostView(CreateView):
+	model = Post
+	form_class = PostForm
+	template_name = 'add_post.html'
+
+-> Run the server, and Go to add_post page to check if everthing is working as expected.
+ 

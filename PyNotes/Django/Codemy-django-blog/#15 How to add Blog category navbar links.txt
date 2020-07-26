@@ -1,0 +1,63 @@
+
+# Add Categories as Dropdown on Navigations
+
+-> From Bootstrap Starter template copy dropdown menu and paste in the approatiate place in navbar section on base.html page.
+
+-> Change the name of dropdown from Dropdown to Categories.
+
+-> Remove something else here and dropdown-divider bar from the dropdown menu.
+
+-> Head back to apps view.py file and inside the HomeView add this
+ def get_context_data(self, *args, **kwargs):
+	cat_menu = Category.objects.all()
+ 	context = super(HomeView, self).get_context_data(*args, **kwargs)
+ 	context["cat_menu"] = cat_menu
+ 	return context
+
+-> On the top on Dropdown but inside the navbar write
+  {% if cat_menu %}
+
+-> and end this end of the dropdown menu inside navbar.
+ {% endif %}
+
+-> Make the link out each of dropdown item by using this for loop
+ {% for item in cat_menu %}
+ 	<a class="dropdown-item" href="{% url 'category' item|slugify %}">{{ item }}</a>
+ {% endfor %}
+
+--------------------------
+
+# Show to other pages
+
+>>> The categories we added will be shown only on the homepage. Even tho we added it in the base template (which home page inherit template). The categories will simply not show any other page becouse we not added the get_context_data method to other views.
+
+>>> The Quick and diry fix will be copy the get_context_data() method from HomeView class and paste it in ArticleDetailView or any other View on which page we wanna show categories.
+
+>>> Do not forgot to change the Class view name in this method for each individual classes. 
+
+------------------------
+
+#Create categories List view page
+
+-> Create a view inside App's views.py file
+ def CategoryListView(request):
+ 	cat_menu_list = Category.objects.all()
+ 	return render(request, 'category_list.html', {'cat_menu_list':cat_menu_list})
+
+-> Create a new HTML template category_list.html in templates folder.
+
+-> Extend it from base.html template, add the content block and put this inside those content block.
+  {% for item in cat_menu_list %}
+ 	<a href="{% url 'category' item|slugify %}">
+<h4>{{ item }}</h4></a>
+ {% endfor %}
+
+-> import CategoryListView in urls.py file
+
+-> Create a path for this page in urls.py file
+ path('category-list/', CategoryListView, name='category-list')
+ 
+-> add This link on the navbar in base.html. With the help of else condition show on the page where the category def not not added.
+ {% url 'category-list' %}
+
+ 

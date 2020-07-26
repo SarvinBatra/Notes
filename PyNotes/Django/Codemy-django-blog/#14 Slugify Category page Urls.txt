@@ -1,0 +1,14 @@
+# Slugigfy category page url
+
+>>> Sometime we write category names more then one word, if we do that django automatically assume space between both words on address bar. It just wrong practice. To fix this we have to slugify our Category page urls.
+
+-> Go to the home and Blog template where we mention the catgory link.
+
+-> In the url of category just add |slugify . it will be look like this
+ {% url 'category' post.category|slugify %}
+
+-> use replace funtion to replace white space with dashes in CategoryView funtion
+ def CategoryView(request, cats):
+	category_posts = Post.objects.filter(category=cats.replace('-', ' '))
+	return render(request, 'categories.html',{'cats':cats.title().replace('-', ' '), 'category_posts':category_posts})
+ 

@@ -1,0 +1,23 @@
+# Show edit/delete links to author only
+
+>>> Currently in our blog any of the user that logged in is able to Edit any of the posted post. Even if the post is posted by other User. The thing is we don't want that, We want that only the user who post the article should be able to update the post.
+
+>>> So we only want the person who created the post should be able to edit it. The logic to prevent this is simple, If the current user is author then he can edit, if he is not then he can't.
+
+-> Inside if user.is_authonticated conditionals which sorround edit and delete links also add this
+ {% if user.id == post.author.id %}
+ 	//Links code here
+ {% endif %}
+
+-> Test the things out if our code works or Not.
+
+------------------
+
+# Hide update/delete page from other user
+
+-> Copy this code and After if user.is_authenticated block of update_post.html & Delete_post.html add this code
+ {% if user.id == post.author.id%}
+ 	//all content goes there.
+ {% else %}
+	<p>You are not allowed</p>
+ {% endif %}

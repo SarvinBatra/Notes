@@ -1,0 +1,50 @@
+
+#Build blog category pages
+
+-> Import CategoryView in urls.py file.
+
+-> Add a new Path in urlpattern there
+ path('category/<str:cats>/',CategoryView, name='category'),
+
+-> In views.py file create new function
+ def CategoryView(request, cats):
+	category_posts = Post.objects.filter(category=cats)
+	return render(request, 'categories.html', {'cats':cats.title(), 'category_posts':category_posts})
+
+>>> .title method there capitalize the categories texts on template page.
+
+
+-> In templates directory create a new file categories.html .
+
+-> Grab the content of Homepage and make few tweaks to make it perfect for category archieve page.
+
+-> replace Posts with category_posts  in for loop in template.
+
+-> Put the {{ cats }} as h1 tag to show the category name on the top of the page.
+
+------------------------
+
+#Not show not created category pages
+
+>>> in the urlbar if we replace our category name with anything else, it will represent it as the category page. But we don't want this. so to fix this -
+
+-> Inside the content block but before anything else put if else block
+ {% if category_post %}
+ 	//page conteng goes here
+ {% else %}
+	<h2>Sorry this page not exist</h2>
+ {% endif %}
+
+
+---------------------------
+
+#add links in categories name
+
+-> On the Home page and Blog post page replace turn {{ post.category }} into the link.
+
+->>> <a href="{% url 'category' post.category %}">{{ post.category }}</a>
+
+
+
+ 
+ 

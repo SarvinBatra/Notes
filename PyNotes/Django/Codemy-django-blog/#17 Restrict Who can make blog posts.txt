@@ -1,0 +1,16 @@
+
+-> Go to forms.py file
+
+-> Comment out the current author tag
+
+-> Write this after that in widgets section
+ 'author':forms.TextInput(attrs={'class': 'form-control', 'value':'', 'id':'elder', 'type':'hidden'}),
+
+->Head over to add_post.html page
+
+-> Write a script tag there
+ <script>
+ var name = "{{ user.id }}";
+ document.getElementById("elder").value=name;
+
+ </script>

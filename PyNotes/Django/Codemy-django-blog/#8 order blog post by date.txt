@@ -1,0 +1,32 @@
+
+# Add post date field
+
+-> Go to app's models.py file
+
+-> import datetime
+ from datetime import datetime, date
+
+-> add post_date field in Post model
+ post_date = models.DateField(auto_now_add=True)
+
+-> In command prompt run the migrations
+ python manage.py makemigrations
+
+-> It'll ask you for defoult date for previousoly published post. Enter 1 and then press enter again to set defaut post as now.
+
+-> Run the migrate command
+ python manage.py migrate
+
+-> in HomeView class in views.py file add
+ ordering
+ ordering = ['-post_date']
+
+-> Run the server and check if everthing is working.
+
+
+-----------------------------
+
+#Add date in templates
+
+-> In article detailes page and home template right after Author put
+ {{ post.post_date }}

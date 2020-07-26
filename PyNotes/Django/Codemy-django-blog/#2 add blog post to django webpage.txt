@@ -1,0 +1,71 @@
+
+# Home page with List view
+
+-> Import Listview & detailview
+ from django.views.generic import ListView, DetailView
+
+-> Comment out or Remove the old home view becouse we don't need it now.
+
+-> Import Post model
+ from .models import Post
+
+-> Create HomeView using ListView
+ class HomeView(ListView):
+	model = Post
+	template_name = 'home.html'
+
+-> Customize the 'home.html' template
+ <ul>
+ {% for post in object_list %}
+	<li>{{ post.title }} - {{ post.author.first_name }} {{ post.author.last_name }}<br/>
+	{{ post.body }}</li>
+ {% endfor %}
+ </ul>
+
+-> Import HomeView in app's urls.py file
+ from .views import HomeView
+
+-> Create path for our HomeView
+ path('', HomeView.as_view(), name='home'),
+
+-> Remove the previous path for home view function becouse we no longer need it.
+
+-> Run the server 
+ python manage.py runserver
+
+------------------------
+
+#Post page with Detail view
+
+-> Create HTML template for post page as article_details.html in templates folder.
+
+-> Create a DetailView in app's view.py file
+ class ArticleDetailView(DetailView):
+	model = Post
+	template_name = 'article_details.html'
+
+-> Import ArticleDetailView in our urls.py file of the App.
+
+-> Create a path for this in urlpattern
+ path('article/<int:pk>', ArticleDetailView(), name='article-detail'),
+
+-> In article_details.html put content
+ <h1>{{ post.title }}</h1>
+ <small>By: {{ post.author.first_name }} {{ post.author.last_name }}</small><br/>
+ <hr>
+ <br/>
+ {{ post.body }}
+
+ <br/><br/>
+ <a href="{% url 'home' %}">Back</a>
+-------------------------------
+
+#Link home page title to blog posts
+
+-> We can do that by replacing home.html with this code.
+ <ul>
+ {% for post in object_list %}
+	<li><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a> - {{ post.author.first_name }} {{ post.author.last_name }}<br/>
+	{{ post.body }}</li>
+ {% endfor %}
+ </ul>

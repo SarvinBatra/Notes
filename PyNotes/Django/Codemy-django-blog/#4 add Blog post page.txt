@@ -1,0 +1,51 @@
+# Create Simple add post
+
+-> In templates folder create a new html template add_post.html
+
+-> Extend the template and add the all content blocks.
+
+-> add this inside it
+ <form method="POST">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button class="btn btn-secondary">Post</button>
+ </form>
+
+-> in app's views.py we import CreateView
+
+-> add a new Class
+ class AddPostView(CreateView):
+	model = Post
+	template_name = 'add_post.html'
+	fields = '__all__'
+
+-> import AddPostView in app's urls.py
+
+-> create path in urlpattern
+ path('add_post/', AddPostView.as_view(), name='add_post'), 
+
+-> add post create link on navbar by 
+ {% url 'add_post' %}
+
+-> Run the server and go to 
+ http://127.0.0.1:8000/add_post/
+
+------------------------
+
+# Reverse after submitting post
+
+-> Import reverse in app's urls.py file
+ from django.urls import reverse
+
+-> In the Post model class add
+ def get_absolute_url(self):
+	return reverse('artical-detail', args=(str(self.id)))
+
+-> Go to add_post page and try to post again.
+
+------------------
+# remove the title tag defoult
+
+-> remove the defoult title tag text from title_tag field in Post model in models.py file.
+
+	

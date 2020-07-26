@@ -1,0 +1,99 @@
+
+# Create Category model
+
+-> Head over to models.py file of theblog app.
+
+-> add this field in Post model there
+ category = models.CharField(max_length=255, defoult='coding')
+
+-> create another model class on top of our Post class
+ class Category(models.Model):
+	name = models.CharField(max_length=255)
+
+-> Add String representation method inside this class
+ def __str__(self)
+ 	return self.name
+
+-> Also add this two methods inside this Category class
+ def get_absolute_url(self):
+ 	return reverse('home')
+
+-> It's time to make a migration.
+ python manage.py makemigrations
+
+-> Now run migrate command
+ python manage.py migrate
+
+-> After that we have to Register our category in admin. To do it first import Category just right after Post.
+
+-> Now register
+ admin.site.register(Category)
+
+-> Run the server, Go to admin and Check if Category is there.
+
+-> Now start Adding Categories.Don't forget to make 'coding' category which is default.
+
+
+----------------------------
+
+# Show categories on Create/Update view
+
+-> Go to App's forms.py file.
+
+-> Here we have to make changes in our PostForm and EditForm.
+
+-> In forms.py , PostForm's Meta class fields also add 'category'
+
+-> On same page in widgets right after author add this line
+ 'category': forms.Select(attrs={'class':'form-control'}),
+
+-> Save it, Run server and Check add new post page. The field will be added there but dropdown will not work.
+
+-> Import Category in forms.py after Post models.
+
+-> Create a Query for Category model to grab categories. Write it before all forms claass but after imports.
+ choices = Category.object.all().values_list('name', 'name')
+
+-> Create a list after it to pass categories.
+ choice_list = []
+
+-> Create a for loop to append them in the list
+ for item in choices:
+ 	choice_list.append(item)
+
+-> In widgets, category field pass that choice_list
+ 'category': forms.Select(choices=choice_list, attrs={'class':'form-control'}),
+
+-> Restart the server and check if everthing working as expected.
+
+---------------------------
+
+# Create a page for add categories
+
+-> Import Category in views.py from models right after Post
+
+-> Inside app's views.py file create this class
+ class AddCategoryView(CreateView)
+ 	model = Category
+	fields = '__all__' 
+	template_name = 'add_category.html'
+
+-> Create a new add_category.html template.
+
+-> Copy the add_post.html template code and paste it there. Customize it for add category page and save it.
+
+-> Go to urls.py file and Import AddCategoryView
+
+-> Now add path for this view in urlpattern
+ path('add_category', AddCategoryView.as_view(), name='add_category') 
+
+-------------------------
+
+#add Category in links
+
+-> Add link for add Category on the navbar, In base.html page
+ {% url 'add_category' %}
+
+-> add this on right before author and after title on Home and Blog page
+ {{ post.category }}
+	 

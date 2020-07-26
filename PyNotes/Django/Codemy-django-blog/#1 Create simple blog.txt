@@ -1,0 +1,126 @@
+
+#Setup the Project
+
+-> Create vertual enviroment.
+
+-> Activate the vertual enviroment.
+
+-> Install Django
+ pip install django
+
+-> create a django project
+ django-admin startproject ablog
+
+-> Get inside ablog directory
+ cd ablog
+
+-> Migrate the server
+ python manage.py migrate
+
+-> Run the server
+ python manage.py runserver
+
+-> Create the first app
+ python manage.py startapp theblog
+
+-> Open project folder using the desired text editor to start working.
+
+--------------------------
+
+#Setup admin
+
+-> Create the superuser
+ python manage.py createsuperuser
+
+-> enter the desired username, Email and Password.
+
+-> Run the server
+
+-> Go to admin area
+ http://127.0.0.1:8000/admin
+
+-> Enter the password and username that we just created.
+
+-> In your user page, on personal info section update your first name and last name.
+
+--------------------------
+
+#Further App settings
+
+-> Add your blog in installed apps section
+ 'theblog.apps.TheblogConfig'
+   or
+  'theblog'
+
+-> Go to project's urls.py file and import include
+
+-> In url pattern add path to our apps urls file
+ path('', include('theblog.urls')),
+
+-> Inside of our theblog app create urls.py file
+
+-----------------------------------------
+
+#Create home page
+
+-> import path in urls.py
+ from django.urls import path
+
+-> import views in urls.py
+ from .import views
+
+-> Create a path for our home page
+ path('', views.home, name='home'),
+
+-> Go to views.py file in app
+
+-> Create view for our home page
+ def home(request):
+ 	return render(request, 'home.html')
+
+-> Create the templates folder in our theblog directory
+
+-> Create home.html file in templates folder.
+
+-> Write html in that file and save
+ <h1> Hello world!<h1>
+
+-> Run the server and check that everthig working properly.
+
+----------------------------------
+
+#Work on post model
+
+-> In app's models file import user model
+ from django.contrib.auth.models import User
+
+-> Create Class Post
+ class Post(models.Model):
+	title = models.CharField(max_length=255)
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	body = models.TextField()
+
+-> make the string representation methode inside that class
+ def __str__(self):
+	return self.title + '|' + str(self.author)
+
+-> Go to app's admin.py file and register the Post model. So we can see it in Admin area.
+
+-> import Post model
+ from .models import Post
+
+-> Register the post model
+ admin.site.register(Post)
+
+-> Run the Makemigrations command
+ python manage.py makemigrations
+
+-> Run the migrate command
+ python manage.py migrate
+
+-> Run the server
+ python manage.py runserver
+
+-> Check the post inside the admin area. We can now post Posts on our blog.
+
+-> write a new code here

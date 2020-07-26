@@ -1,0 +1,49 @@
+
+# Create Update post
+
+-> In templates directory create update_post.html file
+
+-> Put this in update_post.html file 
+ <div class='form-group'>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+	<button class ='btn btn-secondary'>Update</button>
+ </div>
+
+-> In views.py import UpdateView
+
+-> Create a new class
+ class UpdatePostView(UpdateView):
+	model = Post
+	template_name = 'update_post.html'
+	fields = ['title', 'title_tag', 'body']
+
+-> Import UpdatePostView in app's urls.py file
+
+-> Create url path in urls.py
+ path('article/edit/<int:pk>/', 'UpdatePostView.as_view()', name='update_post')
+
+-----------------------
+
+# Add link to update posts
+
+-> On Home page template, right after post author last name
+
+-> put link tag and add this in it
+ <a href="{% url 'update_post' post.pk %}">(Edit)</a>
+
+-> Name anchor tag Edit. Also put this on the Post page as well.
+
+-> save, Run the server and Check if it's working.
+
+----------------------------
+
+#Stylize the form
+
+-> Create a form named EditForm inside the forms.py and make it the same way we create the form previousoly but offcourse few tweaks.
+
+-> add it in the UpdatePostView class view 
+ form_class = PostForm
+
+-> Now finally remove the fields from this class.
