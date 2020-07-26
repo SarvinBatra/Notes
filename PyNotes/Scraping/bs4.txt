@@ -1,0 +1,124 @@
+#BS4
+
+# Install BS4
+ pip install beutifulsoup4
+
+# Install lxml parser
+ pip install lxml
+
+# Install html5lib
+ pip install html5lib
+
+# Install Request library
+ pip install requests
+
+# parse a simple tag
+ soup.tagName
+ i.e ->> soup.title, soup.h5, soup.p. etc.
+
+# parse text only of a tag
+ soup.tagName.text
+ i.e -> soup.title.text, soup.h5.text, etc
+
+# Get the value from tag's attribute
+ soup.tagName['attributName']
+ i.e -> soup.title['href'], soup.img['src'], etc
+
+>>> By using the tags to parse item is good only if we want only the first item of that tags. But most of the time we want to fetch a specific tag or all of them.
+
+>>> We can use tree like structure to follow up till the specific item using div, id's etc. 
+
+# parse item from specific block
+ soup.div.h5.text
+
+>>> But this one also have it's own problem. For example it wil grab h5 text from any of the div. We don't want that. The better way to use find method.
+
+# parse using find method
+ soup.find('div', class_='footer')
+
+>>> Here it will grab everthing inside from the div of class footer. The same way as we did before now we can grab individual items inside that div.
+
+-----------------------
+
+# parse tags text with find method
+
+-> First create a variable for that div
+ article = soup.find('div', class_='article)
+
+-> Now we can create another instance by with structure we can grab the items from it.
+ headline = article.h2.a.text
+
+>>> We can now print out the Headline
+ print(headline)
+
+----------------------------------
+ 
+# using find_all method
+
+>>> find_all method works almost the same as the find method works. But instead of returning only first result it will loop thruw all of them.
+
+>>> So print all of the availble result it's better idead to use for loop there
+
+-> First create the for loop 
+ for article in soup.find_all('div', class_='article'):
+	headline = article.h2.a.text
+	print(headline)
+
+-> Run the script to check that everthing is working properly.
+
+-------------------------------
+#Parse from html file(offline)
+
+-> First import the BeutifulSoup
+ from bs4 import BeutifulSoup
+
+-> Import requests library
+ import requests
+
+-> Open up the file with
+ with open('filename.html') as html_file:
+	soup = BeutifulSoup(html_file, 'lxml')
+
+>>> In first line we open file and set it as html_file name. Here in this example file is locted in the same folder so we did not need to specify the path.
+
+>>> But in case if the file is located in any other folder we need to specify the path.
+
+>>> In second line we create a new instance of BeutifulSoup. We can named it anything but here we named it soup and Pass our file and the parser we are using.
+
+>>> There are many kind of parsers are avaialble there. But in our case we are using lxml parser. Just make sure to install it first in your machine otherwise it will give you error.
+
+-> Print out the output
+ print(soup)
+
+>>> We will see that this will will output the whole HTML page. But it is not very readable right now. To make the output more redable we can use prettify method on our soup veriable.
+
+-> prettify our output
+ print(soup.prettify)
+
+-> Run the python script to see everything working.
+
+----------------------------------------
+
+#Parse from live website
+
+-> First import beautifulsoup
+ from bs4 import BeautifulSoup
+
+-> Import requests module
+ import requests
+
+-> Define the url of website
+ URL='http://www.example.com/'
+
+-> Set it to instance
+ r = requests.get(URL)
+
+-> create soup
+ soup = BeautifulSoup(r.content, 'html5lib')
+
+-> Print it out
+ print(soup)
+
+-> prettify the content
+ print(soup.prettify())
+ 
